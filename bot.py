@@ -36,6 +36,14 @@ def get_weather(city="Cheeral"):
     except Exception as e:
         return f"Weather unavailable ({e})"
 
+def get_weather2(city="Kalpatta"):
+    api_key=os.environ.get("OPENWEATHER_API_KEY")
+    url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric
+    data=requests.get(url).json()
+    temp=data["main"]["temp"]
+    weather=data["weather"][0]["main"]
+    return temp, weather
+
 #FUNCTION 2: Quote
 
 def get_quote():
@@ -81,6 +89,14 @@ TODAY'S QUOTE
 def run():
     """Main entry point. Called by GitHub Actions."""
     summary=build_summary()
+
+    temp, weather = get_weather2()
+    if temp>35 or weather.lower()=="rain":
+        send_email(f"""
+        Weather Alert!
+        Temperature: {temp}C
+        Weather: {weather}
+        """)
 
     #Print to the GitHub Actions Log (visible in the Actions tab)
     print(summary)
