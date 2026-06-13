@@ -38,7 +38,7 @@ def get_weather(city="Cheeral"):
 
 def get_weather2(city="Kalpatta"):
     api_key=os.environ.get("OPENWEATHER_API_KEY")
-    url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric
+    url=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     data=requests.get(url).json()
     temp=data["main"]["temp"]
     weather=data["weather"][0]["main"]
